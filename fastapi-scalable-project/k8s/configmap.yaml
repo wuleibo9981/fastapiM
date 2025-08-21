@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: fastapi-app
+data:
+  app.conf: |
+    # FastAPI应用配置
+    APP_NAME=FastAPI Scalable App
+    APP_VERSION=1.0.0
+    ENVIRONMENT=production
+    DEBUG=false
+    
+    # 服务配置
+    HOST=0.0.0.0
+    PORT=8000
+    WORKERS=4
+    
+    # 数据库配置
+    DATABASE_POOL_SIZE=10
+    DATABASE_MAX_OVERFLOW=20
+    DATABASE_POOL_TIMEOUT=30
+    
+    # Redis配置
+    REDIS_POOL_SIZE=10
+    
+    # JWT配置
+    ALGORITHM=HS256
+    ACCESS_TOKEN_EXPIRE_MINUTES=30
+    
+    # CORS配置
+    CORS_ORIGINS=*
+    CORS_METHODS=*
+    CORS_HEADERS=*
+    
+    # 服务发现配置
+    SERVICE_NAME=fastapi-service
+    HEALTH_CHECK_INTERVAL=10
+    
+    # 监控配置
+    METRICS_ENABLED=true
+    PROMETHEUS_PORT=9090
+    
+    # 日志配置
+    LOG_LEVEL=INFO
+    LOG_FORMAT=json
+    
+    # 限流配置
+    RATE_LIMIT_ENABLED=true
+    RATE_LIMIT_REQUESTS=100
+    RATE_LIMIT_WINDOW=60
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+  namespace: fastapi-app
+type: Opaque
+data:
+  # 注意：这些值需要base64编码
+  # echo -n "your-actual-database-url" | base64
+  database-url: cG9zdGdyZXNxbDovL3Bvc3RncmVzOnBhc3N3b3JkQHBvc3RncmVzLXNlcnZpY2U6NTQzMi9mYXN0YXBpX2Ri
+  # echo -n "redis://redis-service:6379/0" | base64  
+  redis-url: cmVkaXM6Ly9yZWRpcy1zZXJ2aWNlOjYzNzkvMA==
+  # echo -n "your-super-secret-key-change-in-production" | base64
+  secret-key: eW91ci1zdXBlci1zZWNyZXQta2V5LWNoYW5nZS1pbi1wcm9kdWN0aW9u
